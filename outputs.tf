@@ -1,39 +1,48 @@
 ## COMPARTMENT ##
 
-output "compartment_id" {
-  value = try(
-    oci_identity_compartment.this.*.id
-  )
+output "compartment" {
+  value = {
+    for a in oci_identity_compartment.this : a => {
+      compartment_id = a.compartment_id
+    }
+  }
 }
 
 ## API KEY ##
 
-output "api_key_id" {
-  value = try(
-    oci_identity_api_key.this.*.id
-  )
-}
-
-output "api_key_user_id" {
-  value = try(
-    oci_identity_api_key.this.*.user_id
-  )
+output "api_key" {
+  value = {
+    for a in oci_identity_api_key.this : a => {
+      id              = a.id
+      user_id         = a.user_id
+      state           = a.state
+      fingerprint     = a.fingerprint
+      inactive_status = a.inactive_status
+    }
+  }
 }
 
 ## AUTHENTICATION POLICY ##
 
-output "authentication_policy_id" {
-  value = try(
-    oci_identity_authentication_policy.this.*.id
-  )
+output "authentication_policy" {
+  value = {
+    for a in oci_identity_authentication_policy.this : a => {
+      id              = a.id
+      network_policy  = a.network_policy
+      password_policy = a.password_policy
+    }
+  }
 }
 
 ## AUTH TOKEN ##
 
-output "auth_token_id" {
-  value = try(
-    oci_identity_auth_token.this.*.id
-  )
+output "auth_token" {
+  value = {
+    for a in oci_identity_auth_token.this : a => {
+      id    = a.id
+      state = a.state
+    }
+  }
 }
 
 ## CUSTOMER SECRET KEY ##

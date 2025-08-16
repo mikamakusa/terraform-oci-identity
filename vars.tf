@@ -14,18 +14,17 @@ variable "defined_tags" {
 
 variable "api_key" {
   type = list(object({
-    id        = number
+    id        = string
     key_value = string
-    user_id   = any
+    user_id   = string
   }))
   default = []
 }
 
 variable "authentication_policy" {
   type = list(object({
-    id          = number
-    description = string
-    user_id     = any
+    id             = string
+    compartment_id = string
     network_policy = optional(list(object({
       network_source_ids = any
     })))
@@ -43,8 +42,8 @@ variable "authentication_policy" {
 
 variable "auth_token" {
   type = list(object({
-    id          = number
-    user_id     = any
+    id          = string
+    user_id     = string
     description = string
   }))
   default = []
@@ -52,8 +51,8 @@ variable "auth_token" {
 
 variable "compartment" {
   type = list(object({
-    id             = number
-    compartment_id = any
+    id             = string
+    compartment_id = string
     defined_tags   = optional(map(string))
     description    = string
     freeform_tags  = optional(map(string))
@@ -73,16 +72,16 @@ EOF
 
 variable "customer_secret_key" {
   type = list(object({
-    id           = number
+    id           = string
     display_name = string
-    user_id      = any
+    user_id      = string
   }))
   default = []
 }
 
 variable "db_credential" {
   type = list(object({
-    id          = number
+    id          = string
     description = string
     password    = string
     user_id     = string
@@ -92,8 +91,8 @@ variable "db_credential" {
 
 variable "domain" {
   type = list(object({
-    id                        = number
-    compartment_id            = any
+    id                        = string
+    compartment_id            = string
     description               = string
     display_name              = string
     home_region               = string
@@ -113,8 +112,8 @@ variable "domain" {
 
 variable "domain_replication_to_region" {
   type = list(object({
-    id             = number
-    domain_id      = any
+    id             = string
+    domain_id      = string
     replica_region = string
   }))
   default = []
@@ -122,8 +121,8 @@ variable "domain_replication_to_region" {
 
 variable "dynamic_group" {
   type = list(object({
-    id             = number
-    compartment_id = any
+    id             = string
+    compartment_id = string
     description    = string
     matching_rule  = string
     name           = string
@@ -135,10 +134,10 @@ variable "dynamic_group" {
 
 variable "group" {
   type = list(object({
-    id             = number
+    id             = string
     description    = string
     name           = string
-    compartment_id = any
+    compartment_id = string
     freeform_tags  = optional(map(string))
     defined_tags   = optional(map(string))
   }))
@@ -147,8 +146,8 @@ variable "group" {
 
 variable "identity_provider" {
   type = list(object({
-    id                  = number
-    compartment_id      = any
+    id                  = string
+    compartment_id      = string
     description         = string
     metadata            = string
     metadata_url        = string
@@ -164,9 +163,9 @@ variable "identity_provider" {
 
 variable "idp_group_mapping" {
   type = list(object({
-    id                   = number
-    group_id             = any
-    identity_provider_id = any
+    id                   = string
+    group_id             = string
+    identity_provider_id = string
     idp_group_name       = string
   }))
   default = []
@@ -174,8 +173,8 @@ variable "idp_group_mapping" {
 
 variable "import_standard_tags_management" {
   type = list(object({
-    id                          = number
-    compartment_id              = any
+    id                          = string
+    compartment_id              = string
     standard_tag_namespace_name = string
   }))
   default = []
@@ -183,8 +182,8 @@ variable "import_standard_tags_management" {
 
 variable "network_source" {
   type = list(object({
-    id                 = number
-    compartment_id     = any
+    id                 = string
+    compartment_id     = string
     description        = string
     name               = string
     defined_tags       = optional(map(string))
@@ -201,8 +200,8 @@ variable "network_source" {
 
 variable "policy" {
   type = list(object({
-    id             = number
-    compartment_id = any
+    id             = string
+    compartment_id = string
     description    = string
     name           = string
     statements     = list(string)
@@ -215,32 +214,36 @@ variable "policy" {
 
 variable "smtp_credential" {
   type = list(object({
-    id          = number
+    id          = string
     description = string
-    user_id     = any
+    user_id     = string
   }))
   default = []
 }
 
 variable "tag" {
   type = list(object({
-    id               = number
+    id               = string
     description      = string
     name             = string
-    tag_namespace_id = any
+    tag_namespace_id = string
     defined_tags     = optional(map(string))
     freeform_tags    = optional(map(string))
     is_cost_tracking = optional(bool)
     is_retired       = optional(bool)
+    validator = optional(list(object({
+      validator_type = string
+      values         = list(string)
+    })))
   }))
   default = []
 }
 
 variable "tag_default" {
   type = list(object({
-    id                = number
-    compartment_id    = any
-    tag_definition_id = any
+    id                = string
+    compartment_id    = string
+    tag_definition_id = string
     value             = string
     is_required       = optional(bool)
   }))
@@ -249,8 +252,8 @@ variable "tag_default" {
 
 variable "tag_namespace" {
   type = list(object({
-    id             = number
-    compartment_id = any
+    id             = string
+    compartment_id = string
     description    = string
     name           = string
     defined_tags   = optional(map(string))
@@ -262,15 +265,15 @@ variable "tag_namespace" {
 
 variable "ui_password" {
   type = list(object({
-    id      = number
-    user_id = any
+    id      = string
+    user_id = string
   }))
   default = []
 }
 
 variable "user" {
   type = list(object({
-    id          = number
+    id          = string
     description = string
     name        = string
   }))
@@ -279,8 +282,8 @@ variable "user" {
 
 variable "user_capabilities_management" {
   type = list(object({
-    id                           = number
-    user_id                      = any
+    id                           = string
+    user_id                      = string
     can_use_api_keys             = optional(bool)
     can_use_auth_tokens          = optional(bool)
     can_use_console_password     = optional(bool)
@@ -292,9 +295,9 @@ variable "user_capabilities_management" {
 
 variable "user_group_membership" {
   type = list(object({
-    id       = number
-    group_id = any
-    user_id  = any
+    id       = string
+    group_id = string
+    user_id  = string
   }))
   default = []
 }
